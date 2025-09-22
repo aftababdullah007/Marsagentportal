@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="text-center mb-5 welcome-section">
+  {% load static %}
+  <img src="{% static 'images/mars logo.svg' %}" alt="Mars BPO Logo" class="mb-4 logo-image">
+  <h1 class="welcome-title">Welcome to Agent Portal, Mars 0.2</h1>
+  <p class="welcome-subtitle">Choose an option below to get started</p>
+</div>
+
+<div class="row g-4">
+  <!-- Leave Request -->
+  <div class="col-12 col-md-4">
+    <div class="text-decoration-none" onclick="openModal('leaveModal')" style="cursor: pointer;">
+      <div class="card portal-card card-dark">
+        <div class="card-body text-center py-5">
+          <div class="display-5"><i class="fas fa-calendar-alt"></i></div>
+          <h3 class="mt-4">Leave Request</h3>
+          <p class="mt-2">Apply for official leave easily</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Complaint Box -->
+  <div class="col-12 col-md-4">
+    <div class="text-decoration-none" onclick="openModal('complainModal')" style="cursor: pointer;">
+      <div class="card portal-card card-dark">
+        <div class="card-body text-center py-5">
+          <div class="display-5"><i class="fas fa-comments"></i></div>
+          <h3 class="mt-4">Complaint Box</h3>
+          <p class="mt-2">Submit issues & track responses</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resignation Letter -->
+  <div class="col-12 col-md-4">
+    <div class="text-decoration-none" onclick="openModal('resignationModal')" style="cursor: pointer;">
+      <div class="card portal-card card-dark">
+        <div class="card-body text-center py-5">
+          <div class="display-5"><i class="fas fa-sign-out-alt"></i></div>
+          <h3 class="mt-4">Resignation Letter</h3>
+          <p class="mt-2">Submit your resignation request</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ View Records Button -->
+<div class="text-center mt-5">
+  <a href="{% url 'records' %}" class="btn btn-outline-light btn-lg">
+    <i class="fas fa-database me-2"></i> View Records
+  </a>
+</div>
+
+<!-- Contact Info -->
+<div class="contact-section">
+  <div class="contact-card">
+    <div class="contact-icon"><i class="fas fa-headset"></i></div>
+    <div class="contact-content">
+      <h3 class="contact-title">Need Help?</h3>
+      <p class="contact-text">
+        If you still have any issues, you may contact us at
+        <a href="mailto:hr@marsbpo.co" class="contact-link">hr@marsbpo.co</a>
+        or call us at <span class="contact-phone">0332 2229666</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Leave Request Modal -->
+<div id="leaveModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('leaveModal')">&times;</span>
+    <h2 class="modal-title">Leave Request Form</h2>
+    <p class="modal-description">Please fill out the form below to submit your leave request.</p>
+
+    <form method="post" action="{% url 'leave' %}" class="modal-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="employee_name" class="form-label"><i class="fas fa-user form-icon"></i> Employee Name *</label>
+        <input type="text" id="employee_name" name="employee_name" class="form-input" placeholder="Enter your full name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="department" class="form-label"><i class="fas fa-building form-icon"></i> Department *</label>
+        <select id="department" name="department" class="form-input" required>
+          <option value="">-------</option>
+          <option value="Medicare">Medicare</option>
+          <option value="Final Expense">Final Expense</option>
+          <option value="HVAC">HVAC</option>
+          <option value="CSR's">CSR's</option>
+          <option value="management">Management</option>
+        </select>
+      </div>
+
+      <!-- Joining Date -->
+      <div class="form-group">
+        <label for="joining_date_leave" class="form-label"><i class="fas fa-calendar-check form-icon"></i> Joining Date *</label>
+        <input type="date" id="joining_date_leave" name="joining_date" class="form-input"
+               required onchange="checkEligibility('leave')">
+        <small id="joining_date_leave_error" class="text-danger" style="display:none;"></small>
+      </div>
+
+      <div id="leave_extra_fields">
+        <div class="form-group">
+          <label for="date" class="form-label"><i class="fas fa-calendar form-icon"></i> Leave Date *</label>
+          <input type="date" id="date" name="date" class="form-input" disabled>
+        </div>
+
+        <div class="form-group">
+          <label for="reason" class="form-label"><i class="fas fa-file-alt form-icon"></i> Reason for Leave *</label>
+          <textarea id="reason" name="reason" class="form-input" rows="4" disabled></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" disabled>Submit Leave Request</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Complaint Modal -->
+<div id="complainModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('complainModal')">&times;</span>
+    <h2 class="modal-title">Complaint Form</h2>
+    <p class="modal-description">Please fill out the form below to submit your complaint.</p>
+
+    <form method="post" action="{% url 'complaint' %}" class="modal-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="agent_name" class="form-label"><i class="fas fa-user form-icon"></i> Agent Name *</label>
+        <input type="text" id="agent_name" name="agent_name" class="form-input" placeholder="Enter your full name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="department" class="form-label"><i class="fas fa-building form-icon"></i> Department *</label>
+        <select id="department" name="department" class="form-input" required>
+          <option value="">-------</option>
+          <option value="Medicare">Medicare</option>
+          <option value="Final Expense">Final Expense</option>
+          <option value="HVAC">HVAC</option>
+          <option value="CSR's">CSR's</option>
+          <option value="management">Management</option>
+        </select>
+      </div>
+
+      <!-- Joining Date -->
+      <div class="form-group">
+        <label for="joining_date_complaint" class="form-label"><i class="fas fa-calendar-check form-icon"></i> Joining Date *</label>
+        <input type="date" id="joining_date_complaint" name="joining_date" class="form-input"
+               required onchange="checkEligibility('complaint')">
+        <small id="joining_date_complaint_error" class="text-danger" style="display:none;"></small>
+      </div>
+
+      <div id="complaint_extra_fields">
+        <div class="form-group">
+          <label for="complaint_against" class="form-label"><i class="fas fa-exclamation-triangle form-icon"></i> Complaint Against *</label>
+          <input type="text" id="complaint_against" name="complaint_against" class="form-input" placeholder="Enter name or department" disabled>
+        </div>
+
+        <div class="form-group">
+          <label for="complaint_text" class="form-label"><i class="fas fa-comment form-icon"></i> Complaint Details *</label>
+          <textarea id="complaint_text" name="complaint_text" class="form-input" rows="4" disabled></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" disabled>Submit Complaint</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Resignation Modal -->
+<div id="resignationModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('resignationModal')">&times;</span>
+    <h2 class="modal-title">Resignation Form</h2>
+    <p class="modal-description">Please fill out the form below to submit your resignation.</p>
+
+    <form method="post" action="{% url 'resignation' %}" class="modal-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="employee_name" class="form-label"><i class="fas fa-user form-icon"></i> Employee Name *</label>
+        <input type="text" id="employee_name" name="employee_name" class="form-input" placeholder="Enter your full name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="department" class="form-label"><i class="fas fa-building form-icon"></i> Department *</label>
+        <select id="department" name="department" class="form-input" required>
+          <option value="">-------</option>
+          <option value="Medicare">Medicare</option>
+          <option value="Final Expense">Final Expense</option>
+          <option value="HVAC">HVAC</option>
+          <option value="CSR's">CSR's</option>
+          <option value="management">Management</option>
+        </select>
+      </div>
+
+      <!-- Joining Date -->
+      <div class="form-group">
+        <label for="joining_date_resignation" class="form-label"><i class="fas fa-calendar-check form-icon"></i> Joining Date *</label>
+        <input type="date" id="joining_date_resignation" name="joining_date" class="form-input"
+               required onchange="checkEligibility('resignation')">
+        <small id="joining_date_resignation_error" class="text-danger" style="display:none;"></small>
+      </div>
+
+      <div id="resignation_extra_fields">
+        <div class="form-group">
+          <label for="date" class="form-label"><i class="fas fa-calendar form-icon"></i> Resignation Date *</label>
+          <input type="date" id="date" name="date" class="form-input" disabled>
+        </div>
+
+        <div class="form-group">
+          <label for="reason" class="form-label"><i class="fas fa-file-alt form-icon"></i> Reason for Resignation *</label>
+          <textarea id="reason" name="reason" class="form-input" rows="4" disabled></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" disabled>Submit Resignation</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function openModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) { modal.style.display = 'block'; modal.classList.add('show'); }
+}
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) { modal.style.display = 'none'; modal.classList.remove('show'); }
+}
+window.onclick = function(event) {
+  if (event.target.classList.contains('modal')) {
+    event.target.style.display = 'none';
+    event.target.classList.remove('show');
+  }
+};
+
+// Eligibility check for joining date
+function checkEligibility(formType) {
+  const joinInput = document.getElementById(`joining_date_${formType}`);
+  const errorEl   = document.getElementById(`joining_date_${formType}_error`);
+  const extra     = document.getElementById(`${formType}_extra_fields`);
+  if (!joinInput || !extra) return;
+
+  if (!joinInput.value) {
+    disableFields(extra, true);
+    if (errorEl) errorEl.style.display = 'none';
+    return;
+  }
+
+  const joinDate = new Date(joinInput.value);
+  if (isNaN(joinDate)) {
+    disableFields(extra, true);
+    if (errorEl) { errorEl.style.display = 'block'; errorEl.textContent = 'Invalid date.'; }
+    return;
+  }
+
+  const today = new Date();
+  const sixMonthsAgo = new Date(today);
+  sixMonthsAgo.setMonth(today.getMonth() - 6);
+
+  if (joinDate <= sixMonthsAgo) {
+    disableFields(extra, false);
+    if (errorEl) errorEl.style.display = 'none';
+  } else {
+    disableFields(extra, true);
+    if (errorEl) {
+      errorEl.style.display = 'block';
+      errorEl.textContent = 'You are not eligible. Minimum 6 months employment required.';
+    }
+  }
+}
+
+function disableFields(container, state) {
+  container.querySelectorAll('input, textarea, select, button').forEach(el => {
+    if (el.name !== 'joining_date') {
+      el.disabled = state;
+      el.required = !state;
+    }
+  });
+}
+</script>
+
+{% endblock %}
