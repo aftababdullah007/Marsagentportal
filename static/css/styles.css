@@ -1,0 +1,587 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+  line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* =======================
+   Particles Background
+======================= */
+/* Particles background only behind dashboard cards */
+#particles-js {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;  /* behind cards but above page background */
+  background: transparent;
+  pointer-events: none; /* prevents particles from blocking interactions */
+}
+
+/* Dashboard container with particles background */
+.dashboard-container {
+  position: relative;
+  z-index: 1;
+  background: rgba(15, 23, 42, 0.2);
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 2rem 0;
+  overflow: hidden;
+}
+
+.dashboard-container .row.g-4 {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* =======================
+   Navbar
+======================= */
+.navbar {
+  background: #1e293b !important;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 1;
+}
+
+.navbar .navbar-brand {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #38bdf8 !important;
+}
+
+/* =======================
+   Dashboard Cards
+======================= */
+.portal-card {
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  min-height: 260px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(10px);
+}
+
+.portal-card .display-5 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  transition: transform 0.35s ease;
+}
+
+.portal-card h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 1rem 0 0.5rem;
+  color: #fff;
+}
+
+.portal-card p {
+  font-size: 1rem;
+  color: #f1f5f9;
+}
+
+.portal-card:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55);
+}
+
+.portal-card:hover .display-5 {
+  transform: scale(1.15) rotate(5deg);
+}
+
+/* Complete transparency with dark theme hover effects */
+.card-dark {
+  background: transparent;
+  backdrop-filter: none;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-dark:hover {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.4), rgba(51, 65, 85, 0.4));
+  border: 1px solid rgba(71, 85, 105, 0.6);
+  box-shadow: 0 0 30px rgba(71, 85, 105, 0.5);
+  animation: blink-dark 1.5s infinite;
+}
+
+/* Dark theme blinking animation */
+@keyframes blink-dark {
+  0%, 100% { 
+    box-shadow: 0 0 30px rgba(71, 85, 105, 0.5);
+  }
+  50% { 
+    box-shadow: 0 0 50px rgba(71, 85, 105, 0.8);
+  }
+}
+
+/* =======================
+   Footer
+======================= */
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #94a3b8;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 3rem;
+  z-index: 1;
+  position: relative;
+}
+
+/* =======================
+   Modal Forms - Screenshot Design
+======================= */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+.modal.show {
+  display: block !important;
+}
+
+.modal-content {
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  margin: 3% auto;
+  padding: 3.5rem 3rem;
+  border-radius: 24px;
+  width: 95%;
+  max-width: 600px;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  position: relative;
+  animation: modalSlideIn 0.3s ease;
+  border: 1px solid rgba(226, 232, 240, 0.3);
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.close {
+  position: absolute;
+  right: 1.5rem;
+  top: 1.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #64748b;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close:hover {
+  color: #1e293b;
+}
+
+.modal-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.75rem;
+  text-align: left;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.025em;
+}
+
+.modal-description {
+  font-size: 1.1rem;
+  color: #64748b;
+  margin-bottom: 2.5rem;
+  text-align: left;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modal-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modal-form .form-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.form-icon {
+  color: #64748b;
+  font-size: 1.1rem;
+  width: 22px;
+  text-align: center;
+  padding: 0.25rem;
+  border-radius: 6px;
+  background: linear-gradient(145deg, #f1f5f9, #e2e8f0);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.05),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.modal-form .form-input {
+  border: 1px solid #e2e8f0;
+  border-bottom: 2px solid #cbd5e1;
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  padding: 1rem 0.75rem;
+  font-size: 1.1rem;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.3s ease;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.05),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.modal-form .form-input:focus {
+  border-color: #64748b;
+  border-bottom-color: #475569;
+  background: linear-gradient(145deg, #ffffff, #f1f5f9);
+  box-shadow: 
+    0 4px 12px rgba(71, 85, 105, 0.1),
+    0 0 0 3px rgba(71, 85, 105, 0.1),
+    inset 0 1px 2px rgba(255, 255, 255, 0.9);
+}
+
+.modal-form .form-input::placeholder {
+  color: #94a3b8;
+}
+
+.modal-form textarea.form-input {
+  resize: vertical;
+  min-height: 100px;
+  padding: 1rem 0.75rem;
+}
+
+.modal-form select.form-input {
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  border: 1px solid #e2e8f0;
+  border-bottom: 2px solid #cbd5e1;
+  padding: 1rem 0.75rem;
+  font-size: 1.1rem;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.3s ease;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.05),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.modal-form select.form-input:focus {
+  border-color: #64748b;
+  border-bottom-color: #475569;
+  background: linear-gradient(145deg, #ffffff, #f1f5f9);
+  box-shadow: 
+    0 4px 12px rgba(71, 85, 105, 0.1),
+    0 0 0 3px rgba(71, 85, 105, 0.1),
+    inset 0 1px 2px rgba(255, 255, 255, 0.9);
+}
+
+.modal-form select.form-input option {
+  background: white;
+  color: #1e293b;
+  padding: 0.5rem;
+}
+
+.modal-form .submit-btn {
+  background: linear-gradient(145deg, #1e293b, #334155);
+  color: white;
+  border: 1px solid #475569;
+  border-radius: 12px;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1.5rem;
+  box-shadow: 
+    0 6px 20px rgba(30, 41, 59, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-form .submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.modal-form .submit-btn:hover::before {
+  left: 100%;
+}
+
+.modal-form .submit-btn:hover {
+  background: linear-gradient(145deg, #0f172a, #1e293b);
+  transform: translateY(-3px);
+  box-shadow: 
+    0 12px 30px rgba(30, 41, 59, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-color: #64748b;
+}
+
+.modal-form .submit-btn:active {
+  transform: translateY(0);
+}
+
+/* =======================
+   Welcome Section
+======================= */
+.welcome-section {
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+
+.logo-image {
+  max-height: 60px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.welcome-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+  letter-spacing: -0.025em;
+}
+
+.welcome-subtitle {
+  font-size: 1.2rem;
+  color: #e2e8f0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 400;
+  margin: 0;
+}
+
+/* =======================
+   Contact Section
+======================= */
+.contact-section {
+  margin-top: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(248, 250, 252, 0.15));
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+  padding: 2rem 3rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  max-width: 800px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.contact-icon {
+  background: linear-gradient(145deg, #3b82f6, #1d4ed8);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 8px 20px rgba(59, 130, 246, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.contact-icon i {
+  font-size: 2rem;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.contact-content {
+  flex: 1;
+}
+
+.contact-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.contact-text {
+  font-size: 1.2rem;
+  color: #e2e8f0;
+  line-height: 1.6;
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.contact-link {
+  color: #60a5fa;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  background: linear-gradient(145deg, rgba(59, 130, 246, 0.2), rgba(29, 78, 216, 0.2));
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.contact-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.contact-link:hover::before {
+  left: 100%;
+}
+
+.contact-link:hover {
+  color: #1d4ed8;
+  background: linear-gradient(145deg, rgba(59, 130, 246, 0.2), rgba(29, 78, 216, 0.2));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.contact-phone {
+  color: #ffffff;
+  font-weight: 700;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  background: linear-gradient(145deg, rgba(71, 85, 105, 0.3), rgba(51, 65, 85, 0.3));
+  border: 1px solid rgba(71, 85, 105, 0.4);
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* =======================
+   Responsive
+======================= */
+@media (max-width: 768px) {
+  .portal-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .portal-card .display-5 {
+    font-size: 2.2rem;
+  }
+
+  .portal-card h3 {
+    font-size: 1.1rem;
+  }
+  
+  .modal-content {
+    margin: 10% auto;
+    padding: 2rem 1.5rem;
+    width: 95%;
+  }
+  
+  .modal-title {
+    font-size: 1.5rem;
+  }
+  
+  .contact-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+  }
+  
+  .contact-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .contact-icon i {
+    font-size: 1.5rem;
+  }
+  
+  .contact-title {
+    font-size: 1.3rem;
+  }
+  
+  .contact-text {
+    font-size: 1rem;
+  }
+}
